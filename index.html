@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mis renders</title>
+<meta name="description" content="Galería de renders ordenados por carpeta">
+<meta name="theme-color" content="#2438e0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Renders">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8ebe7;--panel:#dde2dc;--ink:#1c2422;--mute:#66716d;--line:#c5ccc5;--acc:#2438e0;--accink:#fff;--card:#f4f6f3;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171c1b;--panel:#1f2625;--ink:#e6ebe8;--mute:#8a9692;--line:#2f3836;--acc:#7f8dff;--accink:#10131f;--card:#232b2a}}
+:root[data-theme="dark"]{--bg:#171c1b;--panel:#1f2625;--ink:#e6ebe8;--mute:#8a9692;--line:#2f3836;--acc:#7f8dff;--accink:#10131f;--card:#232b2a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+aside{background:var(--panel);border-right:1px solid var(--line);padding:28px 20px;display:flex;flex-direction:column;gap:20px;position:sticky;top:0;height:100vh;overflow:auto}
+h1{font-size:34px;line-height:1;margin:0;font-weight:800;letter-spacing:-.03em}
+.sub{color:var(--mute);font-size:14px;margin:6px 0 0}
+.folders{display:flex;flex-direction:column;gap:6px}
+.f{display:flex;align-items:center;gap:12px;padding:8px;border-radius:14px;border:1px solid transparent;background:none;text-align:left;width:100%}
+.f:hover{background:var(--card)}
+.f.on{background:var(--card);border-color:var(--line)}
+.f.drop{border-color:var(--acc);background:var(--card)}
+.cover{width:52px;height:52px;border-radius:10px;background:var(--line) center/cover;flex:none;position:relative}
+.f.on .cover{box-shadow:0 0 0 2px var(--acc)}
+.f b{display:block;font-weight:600;font-size:15px}
+.f small{color:var(--mute);font-size:13px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px}
+.btn:hover{border-color:var(--ink)}
+.btn.pri{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+.btn.bad:hover{border-color:#d33;color:#d33}
+main{padding:28px 32px 80px;min-width:0}
+.head{display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between;margin-bottom:22px}
+.head h2{margin:0;font-size:44px;line-height:1;letter-spacing:-.03em;font-weight:800;overflow-wrap:anywhere}
+.head p{margin:6px 0 0;color:var(--mute);font-size:14px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.zone{border:2px dashed var(--line);border-radius:18px;padding:34px 20px;text-align:center;color:var(--mute);margin-bottom:22px;transition:border-color .15s,background .15s}
+.zone.over{border-color:var(--acc);background:var(--panel);color:var(--ink)}
+.zone strong{color:var(--ink)}
+.grid{columns:3 240px;column-gap:14px}
+.it{break-inside:avoid;margin:0 0 14px;position:relative;border-radius:12px;overflow:hidden;background:var(--panel);cursor:zoom-in;border:0;padding:0;display:block;width:100%}
+.it img{display:block;width:100%;height:auto}
+.it span{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;font-size:13px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6));opacity:0;transition:opacity .15s;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.it:hover span,.it:focus-visible span{opacity:1}
+.empty{color:var(--mute);text-align:center;padding:40px 0}
+.lb{position:fixed;inset:0;background:rgba(10,13,12,.94);z-index:9;display:none;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.lb.on{display:flex}
+.lb .bar{display:flex;gap:8px;align-items:center;padding:14px 18px;color:#e6ebe8;flex-wrap:wrap}
+.lb .bar .nm{flex:1;min-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb .bar .btn{background:#232b2a;border-color:#3a4442;color:#e6ebe8}
+.lb select{background:#232b2a;border:1px solid #3a4442;border-radius:999px;padding:8px 12px;color:#e6ebe8;max-width:170px}
+.lb .st{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;position:relative;padding:0 56px}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid #3a4442;background:#232b2a;color:#fff;font-size:20px}
+.nav.l{left:6px}.nav.r{right:6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;display:none;z-index:20}
+@media (max-width:760px){
+.app{grid-template-columns:1fr}
+aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:20px 16px}
+.folders{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+.f{width:auto;flex:none;min-width:180px}
+main{padding:20px 16px 80px}
+.head h2{font-size:32px}
+.grid{columns:2 140px;column-gap:10px}
+.it{margin-bottom:10px}
+.lb .st{padding:0 8px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div><h1>Mis renders</h1><p class="sub">Ordenados por carpeta</p></div>
+  <div class="folders" id="folders" role="list"></div>
+  <button class="btn pri" id="newF">Nueva carpeta</button>
+  <button class="btn" id="inst" hidden>Instalar app</button>
+</aside>
+<main>
+  <div class="head">
+    <div><h2 id="title"></h2><p id="count"></p></div>
+    <div class="acts">
+      <button class="btn pri" id="add">Subir imágenes</button>
+      <button class="btn" id="ren">Renombrar</button>
+      <button class="btn bad" id="del">Eliminar carpeta</button>
+    </div>
+  </div>
+  <div class="zone" id="zone"><strong>Arrastrá tus renders acá</strong> o usá “Subir imágenes”. También podés soltarlas sobre una carpeta de la izquierda.</div>
+  <div class="grid" id="grid"></div>
+  <input type="file" id="file" accept="image/*" multiple hidden>
+</main>
+</div>
+<div class="lb" id="lb">
+  <div class="bar">
+    <span class="nm" id="lbn"></span>
+    <select id="mv" aria-label="Mover a carpeta"></select>
+    <button class="btn" id="lbDel">Eliminar</button>
+    <button class="btn" id="lbX">Cerrar</button>
+  </div>
+  <div class="st"><button class="nav l" id="pv" aria-label="Anterior">‹</button><img id="lbi" alt=""><button class="nav r" id="nx" aria-label="Siguiente">›</button></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.getElementById(s);
+let db,folders=[],imgs=[],cur=null,view=[],idx=0,url=null;
+const mem={folders:[],imgs:[]}; // respaldo si IndexedDB no está disponible
+function open(){return new Promise(r=>{try{const q=indexedDB.open('renders',1);
+q.onupgradeneeded=()=>{const d=q.result;d.createObjectStore('folders',{keyPath:'id'});d.createObjectStore('imgs',{keyPath:'id'})};
+q.onsuccess=()=>{db=q.result;r()};q.onerror=()=>r()}catch(e){r()}})}
+function all(s){return new Promise(r=>{if(!db)return r(mem[s]);try{const q=db.transaction(s).objectStore(s).getAll();q.onsuccess=()=>r(q.result);q.onerror=()=>r([])}catch(e){r([])}})}
+function put(s,o){if(!db){const i=mem[s].findIndex(x=>x.id===o.id);i<0?mem[s].push(o):mem[s][i]=o;return Promise.resolve()}
+return new Promise(r=>{try{const t=db.transaction(s,'readwrite');t.objectStore(s).put(o);t.oncomplete=r;t.onerror=r}catch(e){r()}})}
+function rm(s,id){if(!db){mem[s]=mem[s].filter(x=>x.id!==id);return Promise.resolve()}
+return new Promise(r=>{try{const t=db.transaction(s,'readwrite');t.objectStore(s).delete(id);t.oncomplete=r;t.onerror=r}catch(e){r()}})}
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2200)}
+const urls=new Map();
+function u(im){if(!urls.has(im.id))urls.set(im.id,URL.createObjectURL(im.blob));return urls.get(im.id)}
+async function load(){folders=(await all('folders')).sort((a,b)=>a.t-b.t);imgs=(await all('imgs')).sort((a,b)=>b.t-a.t);
+if(!folders.length){const f={id:uid(),name:'Sin título',t:Date.now()};folders.push(f);await put('folders',f)}
+if(!folders.find(f=>f.id===cur))cur=folders[0].id;draw()}
+function draw(){
+const box=$('folders');box.innerHTML='';
+folders.forEach(f=>{const l=imgs.filter(i=>i.f===f.id);const b=document.createElement('button');
+b.className='f'+(f.id===cur?' on':'');b.setAttribute('role','listitem');
+const c=document.createElement('div');c.className='cover';if(l[0])c.style.backgroundImage=`url(${u(l[0])})`;
+const t=document.createElement('div');const n=document.createElement('b');n.textContent=f.name;const s=document.createElement('small');s.textContent=l.length+(l.length===1?' render':' renders');
+t.append(n,s);b.append(c,t);
+b.onclick=()=>{cur=f.id;draw()};
+b.ondragover=e=>{e.preventDefault();b.classList.add('drop')};b.ondragleave=()=>b.classList.remove('drop');
+b.ondrop=e=>{e.preventDefault();e.stopPropagation();b.classList.remove('drop');addFiles(e.dataTransfer.files,f.id)};
+box.append(b)});
+const f=folders.find(x=>x.id===cur);view=imgs.filter(i=>i.f===cur);
+$('title').textContent=f.name;$('count').textContent=view.length?view.length+(view.length===1?' render':' renders'):'Carpeta vacía';
+$('del').style.display=folders.length>1?'':'none';
+const g=$('grid');g.innerHTML='';
+if(!view.length){g.innerHTML='<div class="empty">Todavía no hay renders en esta carpeta.</div>';g.style.columns='auto'}else g.style.columns='';
+view.forEach((im,i)=>{const b=document.createElement('button');b.className='it';b.setAttribute('aria-label','Abrir '+im.name);
+const p=document.createElement('img');p.src=u(im);p.alt=im.name;p.loading='lazy';const s=document.createElement('span');s.textContent=im.name;
+b.append(p,s);b.onclick=()=>show(i);g.append(b)})}
+async function addFiles(fl,fid){const list=[...fl].filter(f=>f.type.startsWith('image/'));
+if(!list.length){toast('Solo se pueden subir imágenes');return}
+for(const f of list){const o={id:uid(),f:fid||cur,name:f.name.replace(/\.[^.]+$/,''),blob:f,t:Date.now()};imgs.unshift(o);await put('imgs',o)}
+toast(list.length+(list.length===1?' imagen subida':' imágenes subidas'));draw()}
+$('add').onclick=()=>$('file').click();
+$('file').onchange=e=>{addFiles(e.target.files);e.target.value=''};
+const z=$('zone');
+['dragenter','dragover'].forEach(v=>window.addEventListener(v,e=>{e.preventDefault();z.classList.add('over')}));
+['dragleave','drop'].forEach(v=>window.addEventListener(v,e=>{e.preventDefault();if(v==='drop'||!e.relatedTarget)z.classList.remove('over')}));
+window.addEventListener('drop',e=>{if(e.dataTransfer&&e.dataTransfer.files.length)addFiles(e.dataTransfer.files)});
+$('newF').onclick=async()=>{const n=prompt('Nombre de la carpeta');if(!n||!n.trim())return;const f={id:uid(),name:n.trim(),t:Date.now()};folders.push(f);await put('folders',f);cur=f.id;draw()};
+$('ren').onclick=async()=>{const f=folders.find(x=>x.id===cur);const n=prompt('Nuevo nombre',f.name);if(!n||!n.trim())return;f.name=n.trim();await put('folders',f);draw()};
+$('del').onclick=async()=>{const f=folders.find(x=>x.id===cur);const l=imgs.filter(i=>i.f===cur);
+if(!confirm(`¿Eliminar “${f.name}”${l.length?' y sus '+l.length+' renders':''}? No se puede deshacer.`))return;
+for(const i of l)await rm('imgs',i.id);imgs=imgs.filter(i=>i.f!==cur);await rm('folders',cur);folders=folders.filter(x=>x.id!==cur);cur=folders[0].id;draw();toast('Carpeta eliminada')};
+function show(i){idx=(i+view.length)%view.length;const im=view[idx];$('lbi').src=u(im);$('lbi').alt=im.name;$('lbn').textContent=im.name;
+const m=$('mv');m.innerHTML='<option value="">Mover a…</option>';folders.filter(f=>f.id!==cur).forEach(f=>{const o=document.createElement('option');o.value=f.id;o.textContent=f.name;m.append(o)});
+$('lb').classList.add('on');$('lbX').focus()}
+function close(){$('lb').classList.remove('on')}
+$('lbX').onclick=close;$('pv').onclick=()=>show(idx-1);$('nx').onclick=()=>show(idx+1);
+$('mv').onchange=async e=>{if(!e.target.value)return;const im=view[idx];im.f=e.target.value;await put('imgs',im);toast('Movido a otra carpeta');close();draw()};
+$('lbDel').onclick=async()=>{const im=view[idx];if(!confirm('¿Eliminar este render?'))return;await rm('imgs',im.id);imgs=imgs.filter(x=>x.id!==im.id);URL.revokeObjectURL(urls.get(im.id));urls.delete(im.id);close();draw();toast('Render eliminado')};
+document.addEventListener('keydown',e=>{if(!$('lb').classList.contains('on'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(idx-1);if(e.key==='ArrowRight')show(idx+1)});
+open().then(load);
+// ---- PWA ----
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
+// pedir almacenamiento persistente para que el navegador no borre los renders guardados
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+let instEv=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instEv=e;$('inst').hidden=false});
+$('inst').onclick=async()=>{if(!instEv)return;instEv.prompt();try{await instEv.userChoice}catch(e){}instEv=null;$('inst').hidden=true};
+window.addEventListener('appinstalled',()=>{$('inst').hidden=true;toast('App instalada')});
+</script>
+</body>
+</html>
